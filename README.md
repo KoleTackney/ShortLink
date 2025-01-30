@@ -28,15 +28,7 @@ If you plan to add external scripts (like HTMX or highlight.js), you'll need to:
 
 See the [Documentation](https://templui.io/docs/how-to-use) for details.
 
-## Prerequisites
-
-Before starting, ensure you have these tools installed:
-
-- Go (1.23 or later)
-- Templ
-- Tailwind CSS CLI (Standalone) *v4 currently not supported (WIP)
-- Make (for development scripts)
-- Docker (optional, for deployment)
+## Installation
 
 For installation instructions, visit our [documentation](https://templui.io/docs/how-to-use#requirements).
 
