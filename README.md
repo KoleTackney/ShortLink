@@ -32,7 +32,7 @@ See the [Documentation](https://templui.io/docs/how-to-use) for details.
 
 Before starting, ensure you have these tools installed:
 
-- Go (1.20 or later)
+- Go (1.23 or later)
 - Templ
 - Tailwind CSS CLI (Standalone) *v4 currently not supported (WIP)
 - Make (for development scripts)
