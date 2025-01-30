@@ -34,7 +34,7 @@ Before starting, ensure you have these tools installed:
 
 - Go (1.20 or later)
 - Templ
-- Tailwind CSS CLI (Standalone)
+- Tailwind CSS CLI (Standalone) *v4 currently not supported (WIP)
 - Make (for development scripts)
 - Docker (optional, for deployment)
 
