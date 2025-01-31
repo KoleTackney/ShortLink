@@ -107,7 +107,7 @@
 }
 
 /*
-! tailwindcss v3.4.16 | MIT License | https://tailwindcss.com
+! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com
 */
 
 /*
@@ -1231,6 +1231,10 @@ body {
 .columns-4 {
   -moz-columns: 4;
        columns: 4;
+}
+
+.grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .grid-cols-3 {
@@ -2576,6 +2580,11 @@ body {
 
 .\[\&\:has\(svg\)\]\:pl-11:has(svg) {
   padding-left: 2.75rem;
+}
+
+.\[\&\:not\(\.bg-primary\)\]\:hover\:bg-muted:hover:not(.bg-primary) {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--muted) / var(--tw-bg-opacity, 1));
 }
 
 .\[\&\>svg\+div\]\:translate-y-\[-3px\]>svg+div {
