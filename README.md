@@ -1,6 +1,6 @@
-# TemplUI Quickstart
+# templUI Quickstart
 
-Get started with TemplUI, an enterprise-ready UI component library for Go and Templ. This template provides a pre-configured setup for building professional web applications with TemplUI components.
+Get started with templUI, an enterprise-ready UI component library for Go and templ. This template provides a pre-configured setup for building professional web applications with templUI components.
 
 ## Installation
 
@@ -22,7 +22,7 @@ For installation instructions, visit our [documentation](https://templui.io/docs
    ```
 
 3. **Configure Tailwind**
-   Since we're using TemplUI as a package, you need to configure Tailwind to process its components:
+   Since we're using templUI as a package, you need to configure Tailwind to process its components:
 
    a. Get your Go path:
 
