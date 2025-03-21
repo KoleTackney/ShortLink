@@ -18,17 +18,19 @@ templ Landing() {
 				</div>
 				<div class="flex gap-3">
 					@components.Button(components.ButtonProps{
-						Text:    "Documentation",
 						Variant: "default",
 						Href:    "https://templui.io",
 						Target:  "_blank",
-					})
+					}) {
+						Documentation
+					}
 					@components.Button(components.ButtonProps{
-						Text:    "GitHub",
 						Variant: "outline",
 						Href:    "https://github.com/axzilla/templui",
 						Target:  "_blank",
-					})
+					}) {
+						GitHub
+					}
 				</div>
 				<p class="text-sm text-muted-foreground mt-4">
 					Questions? Join our <a href="https://github.com/axzilla/templui/discussions" target="_blank" class="text-primary hover:underline">community discussions</a> 👋
