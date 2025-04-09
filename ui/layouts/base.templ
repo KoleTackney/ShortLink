@@ -2,7 +2,7 @@ package layouts
 
 import (
 	"github.com/axzilla/templui-quickstart/ui/modules"
-	"github.com/axzilla/templui/helpers"
+	"github.com/axzilla/templui/helper"
 )
 
 templ ThemeSwitcherScript() {
@@ -40,7 +40,7 @@ templ BaseLayout() {
 			<!-- Alpine.js -->
 			<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 			<!-- Component scripts -->
-			@helpers.ComponentScripts()
+			@helper.ComponentScripts()
 			<!-- Theme switcher script -->
 			@ThemeSwitcherScript()
 		</head>

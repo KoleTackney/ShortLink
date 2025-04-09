@@ -2,7 +2,7 @@ package pages
 
 import (
 	"github.com/axzilla/templui-quickstart/ui/layouts"
-	"github.com/axzilla/templui/components"
+	"github.com/axzilla/templui/component/button"
 )
 
 templ Landing() {
@@ -17,14 +17,14 @@ templ Landing() {
 					</p>
 				</div>
 				<div class="flex gap-3">
-					@components.Button(components.ButtonProps{
+					@button.Button(button.Props{
 						Variant: "default",
 						Href:    "https://templui.io",
 						Target:  "_blank",
 					}) {
 						Documentation
 					}
-					@components.Button(components.ButtonProps{
+					@button.Button(button.Props{
 						Variant: "outline",
 						Href:    "https://github.com/axzilla/templui",
 						Target:  "_blank",
