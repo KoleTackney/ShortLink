@@ -4,7 +4,7 @@ go 1.24.0
 
 require (
 	github.com/a-h/templ v0.3.857
-	github.com/axzilla/templui v0.51.0
+	github.com/axzilla/templui v0.52.0
 	github.com/joho/godotenv v1.5.1
 )
 
