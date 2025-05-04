@@ -25,4 +25,4 @@ tailwind-watch:
 # Start development server
 dev:
 	make tailwind-clean
-	make -j3 templ server tailwind-watch
+	make -j3 tailwind-watch templ server
