@@ -21,21 +21,6 @@ For installation instructions, visit our [documentation](https://templui.io/docs
    go mod tidy
    ```
 
-3. **Configure Tailwind**
-   Since we're using templUI as a package, you need to configure Tailwind to process its components:
-
-   a. Get your Go path:
-
-   ```bash
-   go env GOPATH
-   ```
-
-   b. Add the path to your `assets/css/input.css` content array:
-
-   ```js
-   @source "${GOPATH}/pkg/mod/github.com/axzilla/templui@*/**/*.{go,templ}";
-   ```
-
 ## Development
 
 Start the development server with hot reload:
