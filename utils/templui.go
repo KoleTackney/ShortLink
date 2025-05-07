@@ -1,4 +1,4 @@
-// templui util templui.go - version: 8d50ec0f80a4e570b22c7c945bfc2c041249d9af installed by templui v0.70.0
+// templui util templui.go - version: aef1442ac45236b79cff0ed0951c77c544ab23f5 installed by templui v0.70.0
 package utils
 
 import (
