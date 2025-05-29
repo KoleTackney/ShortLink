@@ -1,6 +1,6 @@
 {
   "componentsDir": "ui/components",
   "utilsDir": "utils",
-  "moduleName": "github.com/axzilla/templui-quickstart"
+  "moduleName": "github.com/axzilla/templui-quickstart",
+  "jsDir": "assets/js/components"
 }
-
