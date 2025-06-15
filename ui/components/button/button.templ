@@ -1,4 +1,4 @@
-// templui component button - version: main installed by templui v0.74.1
+// templui component button - version: v0.75.4 installed by templui v0.75.4
 package button
 
 import (
@@ -48,6 +48,7 @@ type Props struct {
 	HxTarget     string
 	HxSwap       string
 	HxReplaceUrl string
+	HxIndicator  string
 }
 
 templ Button(props ...Props) {
@@ -126,6 +127,9 @@ templ Button(props ...Props) {
 			}
 			if p.HxReplaceUrl != "" {
 				hx-replace-url={ p.HxReplaceUrl }
+			}
+			if p.HxIndicator != "" {
+				hx-indicator={ p.HxIndicator }
 			}
 			{ p.Attributes... }
 		>

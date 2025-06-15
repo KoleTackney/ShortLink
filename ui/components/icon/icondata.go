@@ -1,4 +1,4 @@
-// templui component icon - version: main installed by templui v0.74.1
+// templui component icon - version: v0.75.4 installed by templui v0.75.4
 package icon
 
 // This file is auto generated
