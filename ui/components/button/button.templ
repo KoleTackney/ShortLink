@@ -1,4 +1,4 @@
-// templui component button - version: v0.75.4 installed by templui v0.75.4
+// templui component button - version: v0.80.2 installed by templui v0.80.2
 package button
 
 import (
@@ -30,25 +30,16 @@ const (
 )
 
 type Props struct {
-	ID           string
-	Class        string
-	Attributes   templ.Attributes
-	Variant      Variant
-	Size         Size
-	FullWidth    bool
-	Href         string
-	Target       string
-	Disabled     bool
-	Type         Type
-	HxGet        string
-	HxPost       string
-	HxPut        string
-	HxDelete     string
-	HxTrigger    string
-	HxTarget     string
-	HxSwap       string
-	HxReplaceUrl string
-	HxIndicator  string
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+	Variant    Variant
+	Size       Size
+	FullWidth  bool
+	Href       string
+	Target     string
+	Disabled   bool
+	Type       Type
 }
 
 templ Button(props ...Props) {
@@ -104,33 +95,6 @@ templ Button(props ...Props) {
 				type={ string(p.Type) }
 			}
 			disabled?={ p.Disabled }
-			if p.HxGet != "" {
-				hx-get={ p.HxGet }
-			}
-			if p.HxPost != "" {
-				hx-post={ p.HxPost }
-			}
-			if p.HxPut != "" {
-				hx-put={ p.HxPut }
-			}
-			if p.HxDelete != "" {
-				hx-delete={ p.HxDelete }
-			}
-			if p.HxTrigger != "" {
-				hx-trigger={ p.HxTrigger }
-			}
-			if p.HxTarget != "" {
-				hx-target={ p.HxTarget }
-			}
-			if p.HxSwap != "" {
-				hx-swap={ p.HxSwap }
-			}
-			if p.HxReplaceUrl != "" {
-				hx-replace-url={ p.HxReplaceUrl }
-			}
-			if p.HxIndicator != "" {
-				hx-indicator={ p.HxIndicator }
-			}
 			{ p.Attributes... }
 		>
 			{ children... }
