@@ -1,8 +1,8 @@
-// templui component button - version: v0.90.0 installed by templui v0.90.0
+// templui component button - version: v0.92.0 installed by templui v0.92.0
 package button
 
 import (
-	"github.com/templui/templui-quickstart/utils"
+	"URLshortner/utils"
 	"strings"
 )
 
@@ -43,6 +43,8 @@ type Props struct {
 	Target     string
 	Disabled   bool
 	Type       Type
+	Form       string
+	OnClick    templ.ComponentScript
 }
 
 templ Button(props ...Props) {
@@ -62,6 +64,7 @@ templ Button(props ...Props) {
 			if p.Target != "" {
 				target={ p.Target }
 			}
+			onclick={ p.OnClick }
 			class={
 				utils.TwMerge(
 					"inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all",
@@ -100,6 +103,10 @@ templ Button(props ...Props) {
 			if p.Type != "" {
 				type={ string(p.Type) }
 			}
+			if p.Form != "" {
+				form={ p.Form }
+			}
+			onclick={ p.OnClick }
 			disabled?={ p.Disabled }
 			{ p.Attributes... }
 		>

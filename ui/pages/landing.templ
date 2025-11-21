@@ -1,8 +1,12 @@
 package pages
 
 import (
-	"github.com/templui/templui-quickstart/ui/components/button"
-	"github.com/templui/templui-quickstart/ui/layouts"
+	"URLshortner/ui/components/button"
+	"URLshortner/ui/components/card"
+	"URLshortner/ui/components/form"
+	"URLshortner/ui/components/icon"
+	"URLshortner/ui/components/input"
+	"URLshortner/ui/layouts"
 )
 
 templ Landing() {
@@ -10,12 +14,31 @@ templ Landing() {
 		<div class="h-full flex justify-center items-center">
 			<div class="flex flex-col gap-4 items-center justify-center px-4 w-full max-w-2xl">
 				<div class="text-center space-y-4">
-					<h1 class="text-5xl font-bold tracking-tight">templUI Quickstart</h1>
+					<h1 class="text-5xl font-bold tracking-tight">URL shorten</h1>
 					<p class="text-muted-foreground text-lg max-w-md mx-auto">
-						Build modern web applications with
-						<br/>
-						Go, templ, and Tailwind CSS.
+						Shorten your URLs with ease.
 					</p>
+					<form
+						class="flex gap-3"
+						hx-post="/shorten"
+						hx-trigger="submit"
+						hx-target="#URLTarget"
+						hx-swap="afterend"
+					>
+						@form.ItemFlex() {
+							@input.Input(input.Props{
+								ID:          "URL",
+								Placeholder: "URL",
+								Name:        "URL",
+							})
+							@button.Button(button.Props{
+								Type: button.TypeSubmit,
+							}) {
+								Submit
+							}
+						}
+					</form>
+					<div id="URLTarget"></div>
 				</div>
 				<div class="flex gap-3">
 					@button.Button(button.Props{
@@ -33,10 +56,77 @@ templ Landing() {
 						GitHub
 					}
 				</div>
-				<p class="text-sm text-muted-foreground">
+				<p class="text-xl text-muted-foreground">
 					<a href="https://github.com/templui/templui/discussions" target="_blank" class="text-primary hover:opacity-80 underline underline-offset-4">Join the community</a>
 				</p>
 			</div>
 		</div>
 	}
+}
+
+templ MissingURL() {
+	@layouts.BaseLayout() {
+		<div class="h-full flex justify-center items-center">
+			<div class="flex flex-col gap-4 items-center justify-center px-4 w-full max-w-2xl">
+				<div class="text-center space-y-4">
+					<h1 class="text-5xl font-bold tracking-tight">URL shorten</h1>
+					<p class="text-muted-foreground text-lg max-w-md mx-auto">
+						URL is required.
+					</p>
+				</div>
+			</div>
+		</div>
+	}
+}
+
+templ URLNotFound() {
+	@layouts.BaseLayout() {
+		<div class="h-full flex justify-center items-center">
+			<div class="flex flex-col gap-4 items-center justify-center px-4 w-full max-w-2xl">
+				<div class="text-center space-y-4">
+					<h1 class="text-5xl font-bold tracking-tight">URL shorten</h1>
+					<p class="text-muted-foreground text-lg max-w-md mx-auto">
+						URL not found.
+					</p>
+				</div>
+			</div>
+		</div>
+	}
+}
+
+templ URLCard(url string, newURL string) {
+	<script>
+	    async function copyToClipboard(urlToCopy) {
+          try {
+            await navigator.clipboard.writeText(urlToCopy);
+            console.log('Text copied to clipboard');
+          } catch (err) {
+            console.error('Failed to copy text: ', err);
+          }
+        }
+	</script>
+	<div class="w-full max-w-sm">
+		@card.Card() {
+			@card.Header() {
+				@card.Title() {
+					Featured Card
+				}
+				@card.Description() {
+					{ url }
+				}
+			}
+			@card.Content(card.ContentProps{
+				Class: "flex space-x-4 justify-center items-center",
+			}) {
+				<p>{ newURL }</p>
+				@button.Button(
+					button.Props{
+						OnClick: templ.JSFuncCall("copyToClipboard", newURL),
+					}) {
+					@icon.View()
+					Copy
+				}
+			}
+		}
+	</div>
 }

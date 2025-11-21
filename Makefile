@@ -2,7 +2,7 @@
 # re-create _templ.txt files on change, then send reload event to browser. 
 # Default url: http://localhost:7331
 templ:
-	templ generate --watch --proxy="http://localhost:8090" --open-browser=false
+	templ generate --watch --proxy="http://localhost:8090" --cmd="go run ."
 
 # Run air to detect any go file changes to re-build and re-run the server.
 server:
@@ -25,4 +25,4 @@ tailwind-watch:
 # Start development server
 dev:
 	make tailwind-clean
-	make -j3 tailwind-watch templ server
+	make -j2 tailwind-watch templ

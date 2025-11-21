@@ -1,7 +1,7 @@
 {
   "componentsDir": "ui/components",
   "utilsDir": "utils",
-  "moduleName": "github.com/templui/templui-quickstart",
+  "moduleName": "URLshortner",
   "jsDir": "assets/js/components",
   "jsPublicPath": "assets/js/components"
 }
