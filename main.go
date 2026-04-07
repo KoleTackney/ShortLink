@@ -7,9 +7,9 @@ import (
 	"net/http"
 	"os"
 
-	"URLshortner/Internal/storage"
-	"URLshortner/assets"
-	"URLshortner/ui/pages"
+	"koletackney.dev/urlshortener/Internal/storage"
+	"koletackney.dev/urlshortener/assets"
+	"koletackney.dev/urlshortener/ui/pages"
 
 	"github.com/a-h/templ"
 	"github.com/joho/godotenv"
@@ -18,8 +18,11 @@ import (
 func main() {
 	InitDotEnv()
 
+	dbPath := getEnv("DB_PATH", "urlshortener.db")
+	port := getEnv("PORT", "8090")
+
 	// Initialize database
-	db, err := storage.InitDB("urlshortener.db")
+	db, err := storage.InitDB(dbPath)
 	if err != nil {
 		log.Fatalf("Failed to initialize database: %v", err)
 	}
@@ -37,15 +40,13 @@ func main() {
 	mux.Handle("GET /", templ.Handler(pages.Landing()))
 	mux.HandleFunc("POST /shorten", MakeEncodeURL(store))
 	mux.HandleFunc("GET /{encodedIndex}", MakeRedirectURL(store))
-	fmt.Println("Server is running on http://localhost:8090")
-	log.Fatal(http.ListenAndServe(":8090", mux))
+	addr := ":" + port
+	fmt.Printf("Server is running on http://localhost:%s\n", port)
+	log.Fatal(http.ListenAndServe(addr, mux))
 }
 
 func InitDotEnv() {
-	err := godotenv.Load()
-	if err != nil {
-		fmt.Println("Error loading .env file")
-	}
+	_ = godotenv.Load()
 }
 
 func SetupAssetsRoutes(mux *http.ServeMux) {
@@ -67,4 +68,12 @@ func SetupAssetsRoutes(mux *http.ServeMux) {
 	})
 
 	mux.Handle("GET /assets/", http.StripPrefix("/assets/", assetHandler))
+}
+
+func getEnv(key, fallback string) string {
+	value := os.Getenv(key)
+	if value == "" {
+		return fallback
+	}
+	return value
 }

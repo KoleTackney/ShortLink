@@ -4,6 +4,8 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+	"os"
+	"path/filepath"
 	"strings"
 	"time"
 
@@ -76,6 +78,13 @@ func (s *Store) DeleteExpired(ctx context.Context, now time.Time) (int64, error)
 
 // InitDB opens an SQLite database connection and creates the schema if needed.
 func InitDB(dbPath string) (*sql.DB, error) {
+	dir := filepath.Dir(dbPath)
+	if dir != "." {
+		if err := os.MkdirAll(dir, 0o755); err != nil {
+			return nil, err
+		}
+	}
+
 	db, err := sql.Open("sqlite", dbPath)
 	if err != nil {
 		return nil, err

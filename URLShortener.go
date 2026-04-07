@@ -7,9 +7,10 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"strings"
 
-	"URLshortner/Internal/storage"
-	"URLshortner/ui/pages"
+	"koletackney.dev/urlshortener/Internal/storage"
+	"koletackney.dev/urlshortener/ui/pages"
 )
 
 var encoder = base64.URLEncoding
@@ -85,8 +86,8 @@ func encodeURL(w http.ResponseWriter, r *http.Request, store *storage.Store) {
 }
 
 func renderURLCard(w http.ResponseWriter, r *http.Request, originalURL, shortCode string) {
-	host := r.Host
-	newURL := fmt.Sprintf("%s/%s", host, shortCode)
+	baseURL := publicBaseURL(r)
+	newURL := fmt.Sprintf("%s/%s", strings.TrimRight(baseURL, "/"), shortCode)
 	urlCard := pages.URLCard(originalURL, newURL)
 	err := urlCard.Render(r.Context(), w)
 	if err != nil {
@@ -127,4 +128,29 @@ func redirectURL(w http.ResponseWriter, r *http.Request, store *storage.Store) {
 
 	// Redirect to the original URL
 	http.Redirect(w, r, urlData.OriginalURL, http.StatusFound)
+}
+
+func publicBaseURL(r *http.Request) string {
+	scheme := forwardedHeaderValue(r.Header.Get("X-Forwarded-Proto"))
+	if scheme == "" {
+		if r.TLS != nil {
+			scheme = "https"
+		} else {
+			scheme = "http"
+		}
+	}
+
+	host := forwardedHeaderValue(r.Header.Get("X-Forwarded-Host"))
+	if host == "" {
+		host = r.Host
+	}
+
+	return fmt.Sprintf("%s://%s", scheme, host)
+}
+
+func forwardedHeaderValue(value string) string {
+	if index := strings.Index(value, ","); index >= 0 {
+		value = value[:index]
+	}
+	return strings.TrimSpace(value)
 }

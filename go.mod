@@ -1,4 +1,4 @@
-module URLshortner
+module koletackney.dev/urlshortener
 
 go 1.24.0
 

@@ -5,3 +5,24 @@ bin
 node_modules
 tmp
 .env
+.junie/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Build artifacts
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Generated assets (templUI)
+assets/js/
+assets/css/output.css

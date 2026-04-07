@@ -1,0 +1,112 @@
+name: CI and Deploy
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  GO_VERSION: "1.24.0"
+  TEMPL_VERSION: "v0.3.943"
+  TAILWIND_VERSION: "v4.1.13"
+  RAILWAY_PROJECT_ID: "6195a2bb-765a-48ec-8a59-2d94736f585b"
+  RAILWAY_ENVIRONMENT: "production"
+  RAILWAY_SERVICE: "UrlShortener"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
+
+      - name: Install templ
+        shell: bash
+        run: go install github.com/a-h/templ/cmd/templ@${TEMPL_VERSION}
+
+      - name: Install tailwindcss
+        shell: bash
+        run: |
+          curl -fsSL -o /usr/local/bin/tailwindcss \
+            "https://github.com/tailwindlabs/tailwindcss/releases/download/${TAILWIND_VERSION}/tailwindcss-linux-x64"
+          chmod +x /usr/local/bin/tailwindcss
+
+      - name: Generate templ files
+        shell: bash
+        run: templ generate -path .
+
+      - name: Build Tailwind CSS
+        shell: bash
+        run: tailwindcss -i ./assets/css/input.css -o ./assets/css/output.css
+
+      - name: Run tests
+        shell: bash
+        run: go test ./...
+
+      - name: Build
+        shell: bash
+        run: go build ./...
+
+      - name: Prepare deploy bundle
+        if: github.event_name == 'workflow_dispatch'
+        shell: bash
+        run: |
+          rm -rf deploy
+          mkdir -p deploy
+          rsync -a \
+            --exclude '.git' \
+            --exclude '.github' \
+            --exclude '.idea' \
+            --exclude '.junie' \
+            --exclude 'tmp' \
+            --exclude 'deploy' \
+            --exclude '*.exe' \
+            ./ deploy/
+
+      - name: Upload deploy bundle
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/upload-artifact@v4
+        with:
+          name: deploy-bundle
+          path: deploy
+
+  deploy:
+    if: github.event_name == 'workflow_dispatch'
+    needs: validate
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download deploy bundle
+        uses: actions/download-artifact@v4
+        with:
+          name: deploy-bundle
+          path: .
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Railway CLI
+        shell: bash
+        run: npm install --global @railway/cli
+
+      - name: Deploy to Railway
+        shell: bash
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: |
+          railway up ./deploy \
+            --path-as-root \
+            --ci \
+            --no-gitignore \
+            --project "${RAILWAY_PROJECT_ID}" \
+            --environment "${RAILWAY_ENVIRONMENT}" \
+            --service "${RAILWAY_SERVICE}"
