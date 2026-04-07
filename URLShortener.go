@@ -35,10 +35,21 @@ func encodeURL(w http.ResponseWriter, r *http.Request, store *storage.Store) {
 		return
 	}
 
+	// Check to see if the url is already shortened.
+	info, err := store.URLInfo(r.Context(), url)
+	if err == nil {
+		// URL exists, check if it has an expiration date
+		if !info.ExpiresAt.Valid {
+			// No expiration date, return existing shortened URL
+			renderURLCard(w, r, url, info.ShortCode)
+			return
+		}
+		// Has expiration date, continue to create a new URL
+	}
+
 	// Generate a unique short code with retry logic
 	const maxRetries = 10
 	var shortCode string
-	var err error
 
 	for i := 0; i < maxRetries; i++ {
 		shortCode, err = generateShortCode()
@@ -70,11 +81,14 @@ func encodeURL(w http.ResponseWriter, r *http.Request, store *storage.Store) {
 		return
 	}
 
-	// Return the shortened URL
+	renderURLCard(w, r, url, shortCode)
+}
+
+func renderURLCard(w http.ResponseWriter, r *http.Request, originalURL, shortCode string) {
 	host := r.Host
 	newURL := fmt.Sprintf("%s/%s", host, shortCode)
-	urlCard := pages.URLCard(url, newURL)
-	err = urlCard.Render(r.Context(), w)
+	urlCard := pages.URLCard(originalURL, newURL)
+	err := urlCard.Render(r.Context(), w)
 	if err != nil {
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return

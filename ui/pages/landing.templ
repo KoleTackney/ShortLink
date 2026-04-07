@@ -4,61 +4,67 @@ import (
 	"URLshortner/ui/components/button"
 	"URLshortner/ui/components/card"
 	"URLshortner/ui/components/form"
-	"URLshortner/ui/components/icon"
 	"URLshortner/ui/components/input"
 	"URLshortner/ui/layouts"
 )
 
 templ Landing() {
 	@layouts.BaseLayout() {
-		<div class="h-full flex justify-center items-center">
-			<div class="flex flex-col gap-4 items-center justify-center px-4 w-full max-w-2xl">
-				<div class="text-center space-y-4">
-					<h1 class="text-5xl font-bold tracking-tight">URL shorten</h1>
-					<p class="text-muted-foreground text-lg max-w-md mx-auto">
-						Shorten your URLs with ease.
-					</p>
+		<div class="h-full flex justify-center items-center bg-gradient-to-b from-background to-muted/20">
+			<div class="flex flex-col gap-8 items-center justify-center px-4 w-full max-w-3xl">
+				<div class="text-center space-y-6 animate-in fade-in duration-500">
+					<div class="space-y-3">
+						<h1 class="text-6xl md:text-7xl font-bold tracking-tight bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-transparent">
+							URL Shortener
+						</h1>
+						<p class="text-muted-foreground text-lg md:text-xl max-w-lg mx-auto leading-relaxed">
+							Transform long URLs into short, shareable links in seconds
+						</p>
+					</div>
 					<form
-						class="flex gap-3"
+						class="flex flex-col sm:flex-row gap-3 mt-8 max-w-xl mx-auto"
 						hx-post="/shorten"
 						hx-trigger="submit"
 						hx-target="#URLTarget"
 						hx-swap="afterend"
 					>
-						@form.ItemFlex() {
+						@form.ItemFlex(form.ItemProps{Class: "flex-1 w-full"}) {
 							@input.Input(input.Props{
 								ID:          "URL",
-								Placeholder: "URL",
+								Placeholder: "Enter your long URL here...",
 								Name:        "URL",
+								Class:       "h-12 text-base",
 							})
 							@button.Button(button.Props{
-								Type: button.TypeSubmit,
+								Type:  button.TypeSubmit,
+								Class: "h-12 px-8 font-semibold",
 							}) {
-								Submit
+								Shorten
 							}
 						}
 					</form>
-					<div id="URLTarget"></div>
+					<div id="URLTarget" class="mt-6 space-y-4"></div>
 				</div>
-				<div class="flex gap-3">
-					@button.Button(button.Props{
-						Variant: "default",
-						Href:    "https://templui.io/docs/how-to-use",
-						Target:  "_blank",
-					}) {
-						Documentation
-					}
-					@button.Button(button.Props{
-						Variant: "outline",
-						Href:    "https://github.com/templui/templui",
-						Target:  "_blank",
-					}) {
-						GitHub
-					}
+				<div class="flex flex-wrap gap-3 justify-center items-center text-sm text-muted-foreground mt-8">
+					<span class="flex items-center gap-2">
+						<svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+							<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+						</svg>
+						Fast & Reliable
+					</span>
+					<span class="flex items-center gap-2">
+						<svg class="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+							<path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path>
+						</svg>
+						Secure Links
+					</span>
+					<span class="flex items-center gap-2">
+						<svg class="w-4 h-4 text-purple-500" fill="currentColor" viewBox="0 0 20 20">
+							<path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"></path>
+						</svg>
+						Easy to Share
+					</span>
 				</div>
-				<p class="text-xl text-muted-foreground">
-					<a href="https://github.com/templui/templui/discussions" target="_blank" class="text-primary hover:opacity-80 underline underline-offset-4">Join the community</a>
-				</p>
 			</div>
 		</div>
 	}
@@ -66,13 +72,21 @@ templ Landing() {
 
 templ MissingURL() {
 	@layouts.BaseLayout() {
-		<div class="h-full flex justify-center items-center">
+		<div class="h-full flex justify-center items-center bg-gradient-to-b from-background to-muted/20">
 			<div class="flex flex-col gap-4 items-center justify-center px-4 w-full max-w-2xl">
-				<div class="text-center space-y-4">
-					<h1 class="text-5xl font-bold tracking-tight">URL shorten</h1>
+				<div class="text-center space-y-6">
+					<div class="w-20 h-20 mx-auto bg-destructive/10 rounded-full flex items-center justify-center">
+						<svg class="w-10 h-10 text-destructive" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+						</svg>
+					</div>
+					<h1 class="text-4xl font-bold tracking-tight">Missing URL</h1>
 					<p class="text-muted-foreground text-lg max-w-md mx-auto">
-						URL is required.
+						Please provide a URL to shorten
 					</p>
+					<a href="/" class="inline-block mt-4 text-primary hover:underline font-medium">
+						← Go back
+					</a>
 				</div>
 			</div>
 		</div>
@@ -81,13 +95,21 @@ templ MissingURL() {
 
 templ URLNotFound() {
 	@layouts.BaseLayout() {
-		<div class="h-full flex justify-center items-center">
+		<div class="h-full flex justify-center items-center bg-gradient-to-b from-background to-muted/20">
 			<div class="flex flex-col gap-4 items-center justify-center px-4 w-full max-w-2xl">
-				<div class="text-center space-y-4">
-					<h1 class="text-5xl font-bold tracking-tight">URL shorten</h1>
+				<div class="text-center space-y-6">
+					<div class="w-20 h-20 mx-auto bg-muted rounded-full flex items-center justify-center">
+						<svg class="w-10 h-10 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+						</svg>
+					</div>
+					<h1 class="text-4xl font-bold tracking-tight">404 - Not Found</h1>
 					<p class="text-muted-foreground text-lg max-w-md mx-auto">
-						URL not found.
+						This shortened URL doesn't exist or has been removed
 					</p>
+					<a href="/" class="inline-block mt-4 text-primary hover:underline font-medium">
+						← Create a new short link
+					</a>
 				</div>
 			</div>
 		</div>
@@ -95,38 +117,90 @@ templ URLNotFound() {
 }
 
 templ URLCard(url string, newURL string) {
-	<script>
-	    async function copyToClipboard(urlToCopy) {
-          try {
-            await navigator.clipboard.writeText(urlToCopy);
-            console.log('Text copied to clipboard');
-          } catch (err) {
-            console.error('Failed to copy text: ', err);
-          }
-        }
-	</script>
-	<div class="w-full max-w-sm">
-		@card.Card() {
-			@card.Header() {
-				@card.Title() {
-					Featured Card
+	<style>
+		@keyframes bounce-in {
+			0% { transform: scale(0.5); opacity: 0; }
+			70% { transform: scale(1.1); }
+			100% { transform: scale(1); opacity: 1; }
+		}
+		.copy-button {
+			position: relative;
+			display: inline-grid;
+			grid-template-columns: 1fr;
+			grid-template-rows: 1fr;
+			align-items: center;
+			justify-items: center;
+		}
+		.copy-button .default-state,
+		.copy-button .copied-state {
+			grid-column: 1;
+			grid-row: 1;
+			display: flex;
+			align-items: center;
+			gap: 0.5rem;
+			transition: opacity 0.2s ease-in-out;
+		}
+		.copy-button .copied-state { 
+			opacity: 0;
+			pointer-events: none;
+		}
+		.copy-button.copied .default-state { 
+			opacity: 0;
+			pointer-events: none;
+		}
+		.copy-button.copied .copied-state { 
+			opacity: 1;
+			pointer-events: auto;
+			animation: bounce-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+		}
+	</style>
+	<div class="w-full max-w-xl mx-auto animate-in fade-in slide-in-from-top-4 duration-500">
+		@card.Card(card.Props{Class: "border-primary/20 shadow-lg shadow-primary/5"}) {
+			@card.Header(card.HeaderProps{Class: "pb-3"}) {
+				@card.Title(card.TitleProps{Class: "text-base font-medium text-muted-foreground"}) {
+					✓ Link shortened successfully
 				}
-				@card.Description() {
+				@card.Description(card.DescriptionProps{Class: "text-xs break-all mt-2"}) {
 					{ url }
 				}
 			}
 			@card.Content(card.ContentProps{
-				Class: "flex space-x-4 justify-center items-center",
+				Class: "flex flex-col sm:flex-row gap-3 items-stretch sm:items-center pt-3",
 			}) {
-				<p>{ newURL }</p>
+				<div class="flex-1 bg-muted/50 rounded-md px-4 py-3 font-mono text-sm break-all border border-border/50">
+					{ newURL }
+				</div>
 				@button.Button(
 					button.Props{
-						OnClick: templ.JSFuncCall("copyToClipboard", newURL),
+						OnClick: copyToClipboard(newURL),
+						Class:   "whitespace-nowrap copy-button",
 					}) {
-					@icon.View()
-					Copy
+					<span class="default-state flex items-center gap-2">
+						<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+						</svg>
+						Copy Link
+					</span>
+					<span class="copied-state">
+						<svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+						</svg>
+						Copied!
+					</span>
 				}
 			}
 		}
 	</div>
+}
+
+script copyToClipboard(urlToCopy string) {
+    (async function(url, btn) {
+        try {
+            await navigator.clipboard.writeText(url);
+            btn.classList.add('copied');
+            setTimeout(() => btn.classList.remove('copied'), 2000);
+        } catch (err) {
+            console.error('Failed to copy text: ', err);
+        }
+    })(urlToCopy, event.currentTarget);
 }

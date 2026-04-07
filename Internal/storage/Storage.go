@@ -40,6 +40,19 @@ func (s *Store) Insert(ctx context.Context, short, orig string, exp *time.Time) 
 	return err
 }
 
+func (s *Store) URLInfo(ctx context.Context, url string) (URL, error) {
+	var u URL
+	row := s.db.QueryRowContext(ctx,
+		`SELECT short_code, original_url, expires_at, created_at
+     FROM urls WHERE original_url = ?`, url)
+
+	err := row.Scan(&u.ShortCode, &u.OriginalURL, &u.ExpiresAt, &u.CreatedAt)
+	if errors.Is(err, sql.ErrNoRows) {
+		return URL{}, sql.ErrNoRows
+	}
+	return u, err
+}
+
 func (s *Store) Get(ctx context.Context, short string) (URL, error) {
 	var u URL
 	row := s.db.QueryRowContext(ctx,
