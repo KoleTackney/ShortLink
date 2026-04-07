@@ -87,12 +87,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: deploy-bundle
-          path: .
+          path: deploy
 
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
 
       - name: Install Railway CLI
         shell: bash
